@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface StorageRacun {
 
-    public void uplata(Racun racun);
+    public void uplata(Racun racun) throws Exception;
     public List <Racun> dajSve()throws Exception;
 
 

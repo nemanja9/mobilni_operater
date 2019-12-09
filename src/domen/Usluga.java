@@ -6,8 +6,12 @@ public class Usluga {
     private int tip;
     private double kolicina;
     private double cena;
-    private Paket paket;
+    private int paket;
     private String naziv;
+
+    public Usluga() {
+
+    }
 
 
     @Override
@@ -51,11 +55,11 @@ public class Usluga {
         this.cena = cena;
     }
 
-    public Paket getPaket() {
+    public int getPaket() {
         return paket;
     }
 
-    public void setPaket(Paket paket) {
+    public void setPaket(int paket) {
         this.paket = paket;
     }
 
@@ -67,7 +71,19 @@ public class Usluga {
         this.naziv = naziv;
     }
 
-    public Usluga(int uslugaId, int tip, double kolicina, double cena, Paket paket, String naziv) {
+    @Override
+    public String toString() {
+        return "Usluga{" +
+                "uslugaId=" + uslugaId +
+                ", tip=" + tip +
+                ", kolicina=" + kolicina +
+                ", cena=" + cena +
+                ", paket=" + paket +
+                ", naziv='" + naziv + '\'' +
+                '}';
+    }
+
+    public Usluga(int uslugaId, int tip, double kolicina, double cena, int paket, String naziv) {
         this.uslugaId = uslugaId;
         this.tip = tip;
         this.kolicina = kolicina;

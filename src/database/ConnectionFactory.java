@@ -14,6 +14,7 @@ public class ConnectionFactory {
             String user = "root";
             String password = "";
             connection = DriverManager.getConnection(url, user, password);
+            connection.setAutoCommit(false);
             System.out.println("Uspesna konekcija na bazu!");
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();

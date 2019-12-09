@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface StoragePaket {
 
-    public void dodaj(Paket paket) throws Exception;
+    public Paket dodaj(Paket paket) throws Exception;
     public List<Paket> dajSve() throws Exception;
 
 }

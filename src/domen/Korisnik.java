@@ -9,6 +9,10 @@ public class Korisnik {
     private String prezime;
     private String adresa;
 
+    public Korisnik() {
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -54,5 +58,10 @@ public class Korisnik {
 
     public void setAdresa(String adresa) {
         this.adresa = adresa;
+    }
+
+    @Override
+    public String toString() {
+        return ime + " "+ prezime;
     }
 }

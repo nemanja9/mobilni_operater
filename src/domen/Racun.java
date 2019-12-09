@@ -13,6 +13,10 @@ public class Racun {
     private Ugovor ugovor;
     private Korisnik korisnik;
 
+    public Racun() {
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

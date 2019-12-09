@@ -1,21 +1,28 @@
 package domen;
 
+import java.util.ArrayList;
+
 public class Paket {
     private int paketId;
     private String naziv;
-    private Usluga usluge [];
+    private ArrayList<Usluga> usluge;
 
-    public Paket(int paketId, String naziv, Usluga[] usluge) {
+
+    public Paket(int paketId, String naziv, ArrayList<Usluga> usluge) {
         this.paketId = paketId;
         this.naziv = naziv;
         this.usluge = usluge;
     }
 
-    public Usluga[] getUsluge() {
+    public Paket() {
+
+    }
+
+    public ArrayList<Usluga>  getUsluge() {
         return usluge;
     }
 
-    public void setUsluge(Usluga[] usluge) {
+    public void setUsluge(ArrayList<Usluga> usluge) {
         this.usluge = usluge;
     }
 

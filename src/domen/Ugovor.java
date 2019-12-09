@@ -14,6 +14,10 @@ public class Ugovor {
     private Zaposleni zaposleni;
     private Korisnik korisnik;
 
+    public Ugovor() {
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
