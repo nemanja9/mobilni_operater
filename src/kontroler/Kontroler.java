@@ -70,4 +70,19 @@ public class Kontroler {
     public void raskini(Ugovor ug) throws Exception{
         storageUgovor.raskini(ug);
     }
+
+    public Zaposleni ulogujZaposlenog(String username, String password) throws Exception {
+        List<Zaposleni> lista  = dajSveZaposlene();
+        for (Zaposleni zap : lista) {
+            if(zap.getUsername().equalsIgnoreCase(username))
+                if(zap.getPassword().equals(password))
+                    return zap;
+                else throw new Exception("Lozinka nije dobro uneta");
+            
+        }
+        throw new Exception("Ne postoji korisnik sa tim korisnickim imenom!");
+    }
+    public List<Korisnik> dajNekekorisnike(String ime, String prezime, String adresa) throws Exception{
+        return storageKorisnik.dajNeke(ime, prezime, adresa);
+    }
 }

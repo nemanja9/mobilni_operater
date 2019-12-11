@@ -10,5 +10,6 @@ public interface StorageKorisnik {
     public void dodaj(Korisnik korisnik) throws Exception;
     public void izmeni(Korisnik korisnik)throws Exception;
     public void obrisi(Korisnik korisnik)throws Exception;
+    public List<Korisnik> dajNeke(String ime, String prezime, String adresa) throws Exception;
 
 }

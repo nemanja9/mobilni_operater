@@ -98,4 +98,32 @@ public class StorageDatabaseKorisnik implements StorageKorisnik {
             throw new Exception("Greska prilikom brisanja korisnika!\n" + ex.getMessage());
         }
     }
+
+    @Override
+    public List<Korisnik> dajNeke(String ime, String prezime, String adresa) throws Exception {
+        ArrayList<Korisnik> lista = new ArrayList<>();
+        try{
+        Connection connection = ConnectionFactory.getInstance().getConnection();
+        String upit = "select * from korisnik where ime like ? and prezime like ? and adresa like ?";
+        PreparedStatement ps = connection.prepareStatement(upit);
+        ps.setString(1, '%'+ime+'%');
+        ps.setString(2, '%'+prezime+'%');
+        ps.setString(3, '%'+adresa+'%');
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()){
+            Korisnik pom = new Korisnik();
+            pom.setKorisnikId(rs.getInt(1));
+            pom.setIme(rs.getString(2));
+            pom.setPrezime(rs.getString(3));
+            pom.setAdresa(rs.getString(4));
+            lista.add(pom);
+        }
+        ps.close();
+        rs.close();
+        }catch(Exception ex){
+        ex.printStackTrace();
+        throw new Exception("Greska prilikom vadjenja nekih korisnika "+ ex.getMessage());
+        }
+        return lista;
+    }
 }
