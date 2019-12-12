@@ -22,9 +22,19 @@ public class FrmDodajKorisnika extends javax.swing.JFrame {
     /**
      * Creates new form FrmDodaj
      */
+    Korisnik pom = null;
+    
     public FrmDodajKorisnika() {
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        btnSacuvajPromene.setVisible(false);
+    }
+    public FrmDodajKorisnika(Korisnik kor){
+        this.pom = kor;
+        initComponents();
+        prepareView();
+    Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
     }
 
@@ -49,6 +59,7 @@ public class FrmDodajKorisnika extends javax.swing.JFrame {
         txtAdresa = new javax.swing.JTextField();
         btnOdbaci = new javax.swing.JButton();
         btnSacuvaj = new javax.swing.JButton();
+        btnSacuvajPromene = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -155,6 +166,13 @@ public class FrmDodajKorisnika extends javax.swing.JFrame {
             }
         });
 
+        btnSacuvajPromene.setText("Sacuvaj promene");
+        btnSacuvajPromene.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSacuvajPromeneActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -170,8 +188,9 @@ public class FrmDodajKorisnika extends javax.swing.JFrame {
                         .addGap(137, 137, 137)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnSacuvaj, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
-                            .addComponent(btnOdbaci, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(101, Short.MAX_VALUE))
+                            .addComponent(btnOdbaci, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSacuvajPromene, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -184,7 +203,9 @@ public class FrmDodajKorisnika extends javax.swing.JFrame {
                 .addComponent(btnSacuvaj, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnOdbaci, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnSacuvajPromene, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         pack();
@@ -232,6 +253,23 @@ public class FrmDodajKorisnika extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnSacuvajActionPerformed
 
+    private void btnSacuvajPromeneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSacuvajPromeneActionPerformed
+
+        pom.setAdresa(txtAdresa.getText().trim());
+        pom.setIme(txtIme.getText().trim());
+        pom.setPrezime(txtPrezime.getText().trim());
+
+        try {
+            Kontroler.getKontroler().izmeniKorisnika(pom);
+             JOptionPane.showMessageDialog(this, "Sistem je zapamtio podatke o korisniku", "Uspeh!", JOptionPane.INFORMATION_MESSAGE);
+             this.dispose();
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti podatke o korisniku", "Greska!", JOptionPane.ERROR_MESSAGE);
+
+        }
+    }//GEN-LAST:event_btnSacuvajPromeneActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -272,6 +310,7 @@ public class FrmDodajKorisnika extends javax.swing.JFrame {
     private javax.swing.JButton btnOdbaci;
     private javax.swing.JButton btnOtkazi;
     private javax.swing.JButton btnSacuvaj;
+    private javax.swing.JButton btnSacuvajPromene;
     private javax.swing.JButton btnkreiraj;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -282,4 +321,17 @@ public class FrmDodajKorisnika extends javax.swing.JFrame {
     private javax.swing.JTextField txtIme;
     private javax.swing.JTextField txtPrezime;
     // End of variables declaration//GEN-END:variables
+
+    private void prepareView() {
+        System.out.println(pom);
+        txtAdresa.setText(pom.getAdresa().toString());
+        txtIme.setText(pom.getIme());
+        txtPrezime.setText(pom.getPrezime());
+        jPanel1.setVisible(false);
+        btnOdbaci.setVisible(false);
+        btnSacuvaj.setVisible(false);
+        txtAdresa.setEditable(true);
+        txtIme.setEditable(true);
+        txtPrezime.setEditable(true);
+    }
 }

@@ -67,7 +67,7 @@ public class StorageDatabaseRacun implements StorageRacun {
             statement.close();
         }catch (Exception ex){ ex.printStackTrace();
             ex.printStackTrace();
-            throw new Exception("Greska prilikom vadjenja svih korisnika iz baze!\n" + ex.getMessage());
+            throw new Exception("Greska prilikom vadjenja svih racuna iz baze!\n" + ex.getMessage());
         }
         return lista;
 
@@ -95,5 +95,81 @@ public class StorageDatabaseRacun implements StorageRacun {
 
         }
         return null;
+    }
+    
+    @Override
+    public List<Racun> dajSveNeplaceneZaKorisnikaZaJedanUgovor(int korisnik_id, int ugovor_id) throws Exception{
+        ArrayList<Racun> lista = new ArrayList<>();
+        try{
+        Connection conn = ConnectionFactory.getInstance().getConnection();
+        String upit = "Select * from racun where korisnik_id = ? and ugovor_id = ? and placen = false";
+        PreparedStatement ps = conn.prepareStatement(upit);
+        ps.setInt(1, korisnik_id);
+        ps.setInt(2, ugovor_id);
+        ResultSet rs = ps.executeQuery();
+        
+        while(rs.next()){
+            
+                Racun rac = new Racun();
+                rac.setRacunId(rs.getInt("racun_id"));
+                rac.setIznos(rs.getInt("iznos"));
+                rac.setMesecGodina(new Date(rs.getDate("mesecGodina").getTime()));
+                rac.setPlacen(rs.getBoolean("placen"));
+                Ugovor pom = dajUgovor(rs.getInt("ugovor_id"));
+                if(pom == null) throw new Exception("Ne postoji ugovor sa id-jem " + rs.getInt("ugovor_id"));
+                rac.setUgovor(pom);
+                Korisnik pom1 = dajKorisnika(rs.getInt("korisnik_id"));
+                if(pom1 == null) throw new Exception("Ne postoji korisnik sa id-jem " + rs.getInt("korisnik_id"));
+                rac.setKorisnik(pom1);
+                lista.add(rac);
+
+            }
+            rs.close();
+            ps.close();
+        }catch (Exception ex){ 
+            ex.printStackTrace();
+            throw new Exception("Greska prilikom vadjenja racuna iz baze!\n" + ex.getMessage());
+        }
+        return lista;
+
+        
+    }
+
+    @Override
+    public List<Racun> dajSveNeplaceneZaKorisnikaZaSveUgovore(int korisnik_id) throws Exception {
+        ArrayList<Racun> lista = new ArrayList<>();
+        try{
+        Connection conn = ConnectionFactory.getInstance().getConnection();
+        String upit = "Select * from racun where korisnik_id = ? and placen = false";
+        PreparedStatement ps = conn.prepareStatement(upit);
+        ps.setInt(1, korisnik_id);
+  
+        ResultSet rs = ps.executeQuery();
+        
+        while(rs.next()){
+            
+                Racun rac = new Racun();
+                rac.setRacunId(rs.getInt("racun_id"));
+                rac.setIznos(rs.getInt("iznos"));
+                rac.setMesecGodina(new Date(rs.getDate("mesecGodina").getTime()));
+                rac.setPlacen(rs.getBoolean("placen"));
+                Ugovor pom = dajUgovor(rs.getInt("ugovor_id"));
+                if(pom == null) throw new Exception("Ne postoji ugovor sa id-jem " + rs.getInt("ugovor_id"));
+                rac.setUgovor(pom);
+                Korisnik pom1 = dajKorisnika(rs.getInt("korisnik_id"));
+                if(pom1 == null) throw new Exception("Ne postoji korisnik sa id-jem " + rs.getInt("korisnik_id"));
+                rac.setKorisnik(pom1);
+                lista.add(rac);
+
+            }
+            rs.close();
+            ps.close();
+        }catch (Exception ex){ 
+            ex.printStackTrace();
+            throw new Exception("Greska prilikom vadjenja racuna iz baze!\n" + ex.getMessage());
+        }
+        return lista;
+
+        
     }
 }

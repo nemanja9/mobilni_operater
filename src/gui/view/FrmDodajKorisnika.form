@@ -37,10 +37,11 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="btnSacuvaj" pref="156" max="32767" attributes="0"/>
                           <Component id="btnOdbaci" max="32767" attributes="0"/>
+                          <Component id="btnSacuvajPromene" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="101" max="32767" attributes="0"/>
+              <EmptySpace pref="51" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -55,7 +56,9 @@
               <Component id="btnSacuvaj" min="-2" pref="40" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="btnOdbaci" min="-2" pref="40" max="-2" attributes="0"/>
-              <EmptySpace pref="21" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="btnSacuvajPromene" min="-2" pref="40" max="-2" attributes="0"/>
+              <EmptySpace pref="34" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -216,6 +219,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSacuvajActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnSacuvajPromene">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Sacuvaj promene"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSacuvajPromeneActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

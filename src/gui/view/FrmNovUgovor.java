@@ -7,16 +7,26 @@ package gui.view;
 
 import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
 import domen.Korisnik;
+import domen.Paket;
+import domen.Ugovor;
+import domen.Usluga;
+import domen.UslugaTip;
+import domen.Zaposleni;
 import gui.view.components.TableModelPaket;
 import gui.view.components.TableModelUsluga;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 import kontroler.Kontroler;
@@ -29,6 +39,10 @@ public class FrmNovUgovor extends javax.swing.JDialog {
 
    
     public int id;
+    String m;
+    boolean napravljenNovUg = false;
+    Korisnik trenutniKorisnik;
+    Zaposleni trenutniZaposleni;
     public FrmNovUgovor(java.awt.Frame parent, boolean modal,int korisnik_id) throws Exception {
         super(parent, modal);
         initComponents();
@@ -64,11 +78,12 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaPaketi = new javax.swing.JTable();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        panelUsluge = new javax.swing.JPanel();
+        panelScroll = new javax.swing.JScrollPane();
         tabelaUsluge = new javax.swing.JTable();
         btnZapamtiUgovor = new javax.swing.JButton();
         btnOtkazi = new javax.swing.JButton();
+        btnNovPaket = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -111,6 +126,11 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
                 tabelaPaketiMouseClicked(evt);
             }
         });
+        tabelaPaketi.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tabelaPaketiPropertyChange(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabelaPaketi);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -130,7 +150,7 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
                 .addContainerGap())
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Usluge izabranog paketa:"));
+        panelUsluge.setBorder(javax.swing.BorderFactory.createTitledBorder("Usluge izabranog paketa:"));
 
         tabelaUsluge.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -143,31 +163,44 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(tabelaUsluge);
+        panelScroll.setViewportView(tabelaUsluge);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelUslugeLayout = new javax.swing.GroupLayout(panelUsluge);
+        panelUsluge.setLayout(panelUslugeLayout);
+        panelUslugeLayout.setHorizontalGroup(
+            panelUslugeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelUslugeLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        panelUslugeLayout.setVerticalGroup(
+            panelUslugeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelUslugeLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         btnZapamtiUgovor.setText("Zapamti ugovor");
+        btnZapamtiUgovor.setEnabled(false);
+        btnZapamtiUgovor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnZapamtiUgovorActionPerformed(evt);
+            }
+        });
 
         btnOtkazi.setText("Otkazi");
         btnOtkazi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOtkaziActionPerformed(evt);
+            }
+        });
+
+        btnNovPaket.setText("Nov paket");
+        btnNovPaket.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNovPaketActionPerformed(evt);
             }
         });
 
@@ -205,13 +238,19 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
                         .addGap(21, 21, 21)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
+                        .addGap(83, 83, 83)
                         .addComponent(btnZapamtiUgovor, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnOtkazi, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(panelUsluge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnOtkazi, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(53, 53, 53)))
                 .addGap(36, 36, 36))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(108, 108, 108)
+                .addComponent(btnNovPaket)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -235,8 +274,10 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
                 .addGap(55, 55, 55)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                    .addComponent(panelUsluge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnNovPaket)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnZapamtiUgovor, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnOtkazi, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -251,9 +292,14 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
 
     private void tabelaPaketiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaPaketiMouseClicked
         // TODO add your handling code here:
+        btnZapamtiUgovor.setEnabled(true);
         System.out.println(tabelaPaketi.getModel().getValueAt(tabelaPaketi.getSelectedRow(),0));
+        if(napravljenNovUg) return;
         try {
-            tabelaUsluge.setModel(new TableModelUsluga((int) tabelaPaketi.getModel().getValueAt(tabelaPaketi.getSelectedRow(),0)));
+            List<Usluga> lista = Kontroler.getKontroler().dajJedanPaket((int) tabelaPaketi.getModel().getValueAt(tabelaPaketi.getSelectedRow(),0)).getUsluge();
+            System.out.println(Kontroler.getKontroler().dajJedanPaket((int) tabelaPaketi.getModel().getValueAt(tabelaPaketi.getSelectedRow(),0)).getUsluge().get(0).toString());
+            tabelaUsluge.setModel(new TableModelUsluga((ArrayList<Usluga>) lista));
+            
         } catch (Exception ex) {
             Logger.getLogger(FrmNovUgovor.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -264,9 +310,97 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
         this.dispose();
     }//GEN-LAST:event_btnOtkaziActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void btnNovPaketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovPaketActionPerformed
+        napravljenNovUg = true;
+        tabelaUsluge.setEnabled(true);
+        Paket pom = new Paket();
+        m = JOptionPane.showInputDialog("Unesite ime paketa:");
+        if (m == null) return;
+        btnNovPaket.setEnabled(false);
+        pom.setNaziv(m);
+        
+        TableModelPaket  tm = (TableModelPaket) tabelaPaketi.getModel();
+        tm.lista.add(pom);
+        tabelaPaketi.setModel(tm);
+        tm.fireTableDataChanged();
+        Usluga ug1 = new Usluga(123,UslugaTip.GB, 0,0,0,"");
+        Usluga ug2 = new Usluga(123,UslugaTip.MIN, 0,0,0,"");
+        Usluga ug3 = new Usluga(123,UslugaTip.SMS, 0,0,0,"");
+        ArrayList<Usluga> lista = new ArrayList<>();
+        lista.add(ug1);
+        lista.add(ug2);
+        lista.add(ug3);
+        try {
+            TableModelUsluga tmu = new TableModelUsluga(lista);
+            tabelaUsluge.setModel(tmu);
+        } catch (Exception ex) {
+            Logger.getLogger(FrmNovUgovor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        tabelaPaketi.setRowSelectionInterval(tm.lista.size()-1, tm.lista.size()-1);
+        tabelaPaketi.setEnabled(false);
+        tabelaUsluge.setEnabled(true);
+        
+    }//GEN-LAST:event_btnNovPaketActionPerformed
+
+    private void btnZapamtiUgovorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZapamtiUgovorActionPerformed
+        try{
+        
+        String brtel = txtBr.getText().trim();
+        String naziv = txtNaziv.getText().trim();
+        Date DatumOd = new Date();
+        Calendar cal = Calendar.getInstance(); 
+        if(cmbTrajanje.getSelectedItem().toString().startsWith("12"))
+        cal.add(Calendar.MONTH, 12);
+        else cal.add(Calendar.MONTH, 24);
+        Date datumDo = cal.getTime();
+        TableModelUsluga tm = (TableModelUsluga) tabelaUsluge.getModel();
+        List<Usluga> listaUsluga = tm.lista;
+        
+        TableModelPaket tmp = (TableModelPaket) tabelaPaketi.getModel();
+        Paket pak = null;
+        if(napravljenNovUg){
+        pak = new Paket();
+        pak.setNaziv(m);
+        
+        } else
+        try {
+            pak = Kontroler.getKontroler().dajJedanPaket((int) tabelaPaketi.getModel().getValueAt(tabelaPaketi.getSelectedRow(),0));
+        } catch (Exception ex) {
+            Logger.getLogger(FrmNovUgovor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        pak.setUsluge((ArrayList<Usluga>) listaUsluga);
+        
+        Ugovor novi = new Ugovor();
+        novi.setBrojTelefona(brtel);
+        novi.setDatumDo(datumDo);
+        novi.setDatumOd(DatumOd);
+        novi.setKorisnik(trenutniKorisnik);
+        novi.setZaposleni(trenutniZaposleni);
+        novi.setNaziv(naziv);
+        novi.setPaket(pak);
+        
+        JOptionPane.showMessageDialog(this, "Sistem je zapamtio ugovor!","Uspeh!",JOptionPane.INFORMATION_MESSAGE);
+        this.dispose();
+        try {
+            if(napravljenNovUg)
+            Kontroler.getKontroler().dodajPaket(pak);
+            Kontroler.getKontroler().dodajUgovor(novi);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti ugovor!", "Greska!", JOptionPane.ERROR_MESSAGE);
+
+        }
+        }catch(Exception e){
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti ugovor!", "Greska!", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnZapamtiUgovorActionPerformed
+
+    private void tabelaPaketiPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabelaPaketiPropertyChange
+  
+    }//GEN-LAST:event_tabelaPaketiPropertyChange
+
+   
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -312,6 +446,7 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnNovPaket;
     private javax.swing.JButton btnOtkazi;
     private javax.swing.JButton btnZapamtiUgovor;
     private javax.swing.JComboBox cmbTrajanje;
@@ -321,9 +456,9 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane panelScroll;
+    private javax.swing.JPanel panelUsluge;
     private javax.swing.JTable tabelaPaketi;
     private javax.swing.JTable tabelaUsluge;
     private javax.swing.JTextField txtBr;
@@ -340,19 +475,16 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
         System.out.println(FrmMain.ulogovan.getZaposleniId());
         List<Korisnik> listaKor= Kontroler.getKontroler().dajSveKorisnike();
         for (Korisnik korisnik : listaKor) {
-            if (korisnik.getKorisnikId()== id)
+            if (korisnik.getKorisnikId()== id){
                 txtKorisnik.setText(korisnik.toString());
+                trenutniKorisnik = korisnik;
+                trenutniZaposleni = FrmMain.ulogovan;
+            }
         }
-        tabelaUsluge.setModel(new TableModelUsluga(-1));
+        tabelaUsluge.setModel(new TableModelUsluga());
+        tabelaUsluge.setEnabled(false);
         
-        comboCell(tabelaUsluge, tabelaUsluge.getColumn("Tip"));
+        //comboCell(tabelaUsluge, tabelaUsluge.getColumn("Tip"));
         
-    }
-    public void comboCell(JTable table, TableColumn clmn){
-        JComboBox comboBox = new JComboBox();
-        comboBox.addItem("GB");
-        comboBox.addItem("MIN");
-        comboBox.addItem("SMS");
-        clmn.setCellEditor(new DefaultCellEditor(comboBox));
     }
 }

@@ -124,4 +124,43 @@ public class StorageDatabaseUgovor implements StorageUgovor {
 
 
     }
+
+    @Override
+    public List<Ugovor>  dajSveZaKorisnika(int korisnik_id) throws Exception {
+        
+        List<Ugovor> zaposleni = new ArrayList<>();
+        Connection conn = ConnectionFactory.getInstance().getConnection();
+        String upit = "select * from ugovor where korisnik_id = ?";
+        PreparedStatement ps = conn.prepareStatement(upit);
+        ps.setInt(1, korisnik_id);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()){
+            try{
+                Ugovor ug = new Ugovor();
+                ug.setBrojTelefona(rs.getString("brojTelefona"));
+                ug.setDatumDo(new Date(rs.getDate("datumDo").getTime()));
+                ug.setDatumOd(new Date(rs.getDate("datumOd").getTime()));
+                Korisnik pom = dajKorisnika(rs.getInt("korisnik_id"));
+                if(pom==null) throw new Exception("Ne postoji korisnik sa id " + rs.getInt("korisnik_id"));
+                ug.setKorisnik(pom);
+                ug.setUgovorId(rs.getInt("ugovor_id"));
+                ug.setNaziv(rs.getString("naziv"));
+                Zaposleni pomZap = dajZaposlenog(rs.getInt("zaposleni_id"));
+                if(pomZap==null) throw new Exception("Ne postoji zaposleni sa id " + rs.getInt("zaposleni_id"));
+                ug.setZaposleni(pomZap);
+                Paket pomPak = dajPaket(rs.getInt("paket_id"));
+                if(pomPak==null) throw new Exception("Ne postoji paket sa id " + rs.getInt("paket_id"));
+                ug.setPaket(pomPak);
+                zaposleni.add(ug);
+            } catch(Exception ex){
+                 throw new Exception("Greska prilikom vadjenja ugovora iz baze!\n" + ex.getMessage());
+            }
+        }
+        ps.close();
+        rs.close();
+        return zaposleni;
+        
+    }
+    
+    
 }

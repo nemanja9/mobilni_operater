@@ -15,7 +15,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class TableModelKorisnik extends AbstractTableModel{
 
-    List<Korisnik> korisnici;
+    public List<Korisnik> korisnici;
     String[] columnNames=new String[]{"ID", "Ime", "Prezime", "Adresa"};
 
     public TableModelKorisnik(List<Korisnik> korisnici) {
@@ -48,6 +48,9 @@ public class TableModelKorisnik extends AbstractTableModel{
             case 3: return kor.getAdresa();
             default:return "nikad cula";
         }
+    }
+    public Korisnik dajKorisnika(int row){
+        return korisnici.get(row);
     }
      
 }

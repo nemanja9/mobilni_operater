@@ -9,4 +9,5 @@ public interface StorageUgovor {
     public List<Ugovor> dajSve() throws Exception;
     public Ugovor dodaj(Ugovor ugovor) throws Exception;
     public void raskini(Ugovor ugovor)throws Exception;
+    public List<Ugovor> dajSveZaKorisnika(int korisnik_id) throws Exception;
 }

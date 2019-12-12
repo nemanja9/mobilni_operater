@@ -5,9 +5,11 @@
  */
 package gui.view;
 
+import domen.Korisnik;
 import gui.view.components.TableModelKorisnik;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -17,16 +19,16 @@ import kontroler.Kontroler;
  *
  * @author Nemanja
  */
-public class FrmDodajUgovor extends javax.swing.JFrame {
+public class FrmPretragaKorisnikaOLD extends javax.swing.JFrame {
 
     /**
-     * Creates new form FrmDodajUgovor
+     * Creates new form FrmPretraga
      */
-    public FrmDodajUgovor() throws Exception {
+    public FrmPretragaKorisnikaOLD() throws Exception {
         initComponents();
-        srediTabelu();
+        pripremiTabelu();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
     }
 
     /**
@@ -38,6 +40,8 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabela = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         txtIme = new javax.swing.JTextField();
         txtPrezime = new javax.swing.JTextField();
@@ -47,12 +51,22 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         btnPonistiFiltere = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tabela = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnZavrsi = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        tabela.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tabela);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Vrednost pretrage"));
 
@@ -93,7 +107,7 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(txtAdresa, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnPonistiFiltere, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                     .addComponent(btnPretrazi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -123,30 +137,10 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
                 .addContainerGap())
         );
 
-        tabela.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(tabela);
-
-        jButton1.setText("Kreiraj ugovor za izabranog korisnika");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnZavrsi.setText("Zavrsi");
+        btnZavrsi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("Nazad");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnZavrsiActionPerformed(evt);
             }
         });
 
@@ -155,78 +149,63 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(30, 30, 30))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
+                .addContainerGap(85, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnZavrsi)
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(80, 80, 80)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
+                .addContainerGap(20, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addComponent(btnZavrsi)
+                .addGap(24, 24, 24))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnZavrsiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZavrsiActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnZavrsiActionPerformed
+
     private void btnPretraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPretraziActionPerformed
         String ime = txtIme.getText().trim();
         String prezime = txtPrezime.getText().trim();
         String adresa = txtAdresa.getText().trim();
-
+        
         try {
             tabela.setModel(new TableModelKorisnik(Kontroler.getKontroler().dajNekekorisnike(ime, prezime, adresa)));
-        } catch (Exception ex) {
-            Logger.getLogger(FrmPretragaKorisnika.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            if(Kontroler.getKontroler().dajNekekorisnike(ime, prezime, adresa).size()==0) throw new Exception();
+            JOptionPane.showMessageDialog(this, "Sistem je nasao sledece korisnike po zadatoj vrednosti:", "Uspeh!", JOptionPane.INFORMATION_MESSAGE);
 
+        } catch (Exception ex) {
+             JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje korisnika po zadatoj vrednosti.", "Greska!", JOptionPane.ERROR_MESSAGE);
+
+        }
+        
     }//GEN-LAST:event_btnPretraziActionPerformed
 
     private void btnPonistiFiltereActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPonistiFiltereActionPerformed
-        txtAdresa.setText("");
-        txtIme.setText("");
-        txtPrezime.setText("");
-
+       txtAdresa.setText("");
+       txtIme.setText("");
+       txtPrezime.setText("");
+       
         try {
             tabela.setModel(new TableModelKorisnik(Kontroler.getKontroler().dajSveKorisnike()));
         } catch (Exception ex) {
-            Logger.getLogger(FrmPretragaKorisnika.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmPretragaKorisnikaOLD.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnPonistiFiltereActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        try{
-        FrmNovUgovor frmnu = new FrmNovUgovor(this, true, (int) tabela.getModel().getValueAt(tabela.getSelectedRow(), 0));
-        frmnu.setVisible(rootPaneCheckingEnabled);
-        }
-        catch(Exception ex){
-            JOptionPane.showMessageDialog(this, "Niste izabrali korisnika za kog zelite da kreirate ugovor!", "Greska!", JOptionPane.ERROR_MESSAGE);
-
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -245,23 +224,27 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmDodajUgovor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPretragaKorisnikaOLD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmDodajUgovor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPretragaKorisnikaOLD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmDodajUgovor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPretragaKorisnikaOLD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmDodajUgovor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPretragaKorisnikaOLD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new FrmDodajUgovor().setVisible(true);
+                    new FrmPretragaKorisnikaOLD().setVisible(true);
                 } catch (Exception ex) {
-                    Logger.getLogger(FrmDodajUgovor.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Greska!", JOptionPane.ERROR_MESSAGE);
+
                 }
             }
         });
@@ -270,8 +253,7 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPonistiFiltere;
     private javax.swing.JButton btnPretrazi;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnZavrsi;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -283,7 +265,7 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
     private javax.swing.JTextField txtPrezime;
     // End of variables declaration//GEN-END:variables
 
-    private void srediTabelu() throws Exception {
+    private void pripremiTabelu() throws Exception {
         tabela.setModel(new TableModelKorisnik(Kontroler.getKontroler().dajSveKorisnike()));
     }
 }

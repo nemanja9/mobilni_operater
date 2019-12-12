@@ -3,7 +3,7 @@ package domen;
 public class Usluga {
 
     private int uslugaId;
-    private int tip;
+    private UslugaTip tip;
     private double kolicina;
     private double cena;
     private int paket;
@@ -31,12 +31,21 @@ public class Usluga {
         this.uslugaId = uslugaId;
     }
 
-    public int getTip() {
+    public UslugaTip getTip() {
         return tip;
     }
 
     public void setTip(int tip) {
-        this.tip = tip;
+        switch (tip){
+            case 0: this.tip = this.tip.GB;
+            break;
+            case 1: this.tip = this.tip.MIN;
+                        break;
+
+            case 2: this.tip = this.tip.SMS;
+                        break;
+
+        }
     }
 
     public double getKolicina() {
@@ -83,7 +92,7 @@ public class Usluga {
                 '}';
     }
 
-    public Usluga(int uslugaId, int tip, double kolicina, double cena, int paket, String naziv) {
+    public Usluga(int uslugaId, UslugaTip tip, double kolicina, double cena, int paket, String naziv) {
         this.uslugaId = uslugaId;
         this.tip = tip;
         this.kolicina = kolicina;

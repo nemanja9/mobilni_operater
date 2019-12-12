@@ -9,7 +9,6 @@ import domen.Korisnik;
 import gui.view.components.TableModelKorisnik;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -19,16 +18,16 @@ import kontroler.Kontroler;
  *
  * @author Nemanja
  */
-public class FrmPretragaKorisnika extends javax.swing.JFrame {
+public class FrmRadSaUgovorima extends javax.swing.JFrame {
 
     /**
-     * Creates new form FrmPretraga
+     * Creates new form FrmDodajUgovor
      */
-    public FrmPretragaKorisnika() throws Exception {
+    public FrmRadSaUgovorima() throws Exception {
         initComponents();
-        pripremiTabelu();
+        srediTabelu();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
     }
 
     /**
@@ -40,8 +39,6 @@ public class FrmPretragaKorisnika extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tabela = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         txtIme = new javax.swing.JTextField();
         txtPrezime = new javax.swing.JTextField();
@@ -51,31 +48,13 @@ public class FrmPretragaKorisnika extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         btnPonistiFiltere = new javax.swing.JButton();
-        btnZavrsi = new javax.swing.JButton();
-        btnUplata = new javax.swing.JButton();
-        btnNoviKorisnik = new javax.swing.JButton();
-        btnIzmeniKorisnika = new javax.swing.JButton();
-        btnObrisiKorisnika = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabela = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        tabela.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tabelaMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tabela);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Vrednost pretrage"));
 
@@ -116,7 +95,7 @@ public class FrmPretragaKorisnika extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(txtAdresa, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnPonistiFiltere, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                     .addComponent(btnPretrazi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -146,102 +125,89 @@ public class FrmPretragaKorisnika extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        btnZavrsi.setText("Zavrsi");
-        btnZavrsi.addActionListener(new java.awt.event.ActionListener() {
+        tabela.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tabela);
+
+        jButton1.setText("Kreiraj ugovor za izabranog korisnika");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnZavrsiActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
-        btnUplata.setText("Uplata racuna");
-        btnUplata.setEnabled(false);
-        btnUplata.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.setText("Nazad");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUplataActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
 
-        btnNoviKorisnik.setText("Nov korisnik");
-        btnNoviKorisnik.addActionListener(new java.awt.event.ActionListener() {
+        jButton3.setText("Raskini ugovor za izabranog korisnika");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNoviKorisnikActionPerformed(evt);
-            }
-        });
-
-        btnIzmeniKorisnika.setText("Izmeni korisnika");
-        btnIzmeniKorisnika.setEnabled(false);
-        btnIzmeniKorisnika.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIzmeniKorisnikaActionPerformed(evt);
-            }
-        });
-
-        btnObrisiKorisnika.setText("Obrisi korisnika");
-        btnObrisiKorisnika.setEnabled(false);
-        btnObrisiKorisnika.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnObrisiKorisnikaActionPerformed(evt);
+                jButton3ActionPerformed(evt);
             }
         });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(30, 30, 30))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnZavrsi))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1))
-                        .addGap(34, 34, 34)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnUplata, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnNoviKorisnik, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnIzmeniKorisnika, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                            .addComponent(btnObrisiKorisnika, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
+                        .addGap(38, 38, 38)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(20, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(109, 109, 109)
-                        .addComponent(btnNoviKorisnik, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnUplata, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnIzmeniKorisnika, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnObrisiKorisnika, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(37, 37, 37)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnZavrsi)
-                .addGap(24, 24, 24))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnZavrsiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZavrsiActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_btnZavrsiActionPerformed
-
     private void btnPretraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPretraziActionPerformed
         String ime = txtIme.getText().trim();
         String prezime = txtPrezime.getText().trim();
         String adresa = txtAdresa.getText().trim();
-        
+
         try {
             tabela.setModel(new TableModelKorisnik(Kontroler.getKontroler().dajNekekorisnike(ime, prezime, adresa)));
             if(Kontroler.getKontroler().dajNekekorisnike(ime, prezime, adresa).size()==0) throw new Exception();
@@ -251,14 +217,14 @@ public class FrmPretragaKorisnika extends javax.swing.JFrame {
              JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje korisnika po zadatoj vrednosti.", "Greska!", JOptionPane.ERROR_MESSAGE);
 
         }
-        
+
     }//GEN-LAST:event_btnPretraziActionPerformed
 
     private void btnPonistiFiltereActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPonistiFiltereActionPerformed
-       txtAdresa.setText("");
-       txtIme.setText("");
-       txtPrezime.setText("");
-       
+        txtAdresa.setText("");
+        txtIme.setText("");
+        txtPrezime.setText("");
+
         try {
             tabela.setModel(new TableModelKorisnik(Kontroler.getKontroler().dajSveKorisnike()));
         } catch (Exception ex) {
@@ -266,62 +232,38 @@ public class FrmPretragaKorisnika extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnPonistiFiltereActionPerformed
 
-    private void btnUplataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUplataActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        TableModelKorisnik tmk = (TableModelKorisnik) tabela.getModel();
-        try {
-            FrmUplataRacuna frmur = new FrmUplataRacuna(Kontroler.getKontroler().dajSveNeplaceneZaSveUgovore(tmk.dajKorisnika(tabela.getSelectedRow()).getKorisnikId()));
-            frmur.setVisible(true);
-        } catch (Exception ex) {
-            Logger.getLogger(FrmPretragaKorisnika.class.getName()).log(Level.SEVERE, null, ex);
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        try{
+        FrmNovUgovor frmnu = new FrmNovUgovor(this, true, (int) tabela.getModel().getValueAt(tabela.getSelectedRow(), 0));
+        JOptionPane.showMessageDialog(this, "Sistem je kreirao ugovor!", "Uspeh!",JOptionPane.INFORMATION_MESSAGE);
+
+        frmnu.setVisible(true);
+
         }
-    }//GEN-LAST:event_btnUplataActionPerformed
+        catch(Exception ex){
+            JOptionPane.showMessageDialog(this, "Niste izabrali korisnika za kog zelite da kreirate ugovor!", "Greska!", JOptionPane.ERROR_MESSAGE);
 
-    private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        btnUplata.setEnabled(true);
-        btnIzmeniKorisnika.setEnabled(true);
-        
-        btnObrisiKorisnika.setEnabled(true);
-    }//GEN-LAST:event_tabelaMouseClicked
-
-    private void btnIzmeniKorisnikaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIzmeniKorisnikaActionPerformed
-        // TODO add your handling code here:
-                TableModelKorisnik tmk = (TableModelKorisnik) tabela.getModel();
-
-        FrmDodajKorisnika dd = new FrmDodajKorisnika(tmk.dajKorisnika(tabela.getSelectedRow()));
-        dd.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnIzmeniKorisnikaActionPerformed
-
-    private void btnNoviKorisnikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoviKorisnikActionPerformed
-         FrmDodajKorisnika frmd = new FrmDodajKorisnika();
-        frmd.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnNoviKorisnikActionPerformed
-
-    private void btnObrisiKorisnikaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiKorisnikaActionPerformed
-         int dialogResult = JOptionPane.showConfirmDialog(this, "Da li ste sigurni da zelite da obrisete izabranog korisnika?", "check again!", JOptionPane.YES_NO_OPTION);
-                if (dialogResult == JOptionPane.NO_OPTION) return;
-                else {
-                    TableModelKorisnik tmk = (TableModelKorisnik) tabela.getModel();
-             try {
-                 if (Kontroler.getKontroler().dajSveZaJednogKorisnika(tmk.dajKorisnika(tabela.getSelectedRow()).getKorisnikId()).size()>0){
-                     JOptionPane.showMessageDialog(this, "Sistem ne moze da obrise korisnika jer postoje ugovori na njegovo ime", "Greska!", JOptionPane.ERROR_MESSAGE);
-                     
-                     return;
-                 }
-                 Kontroler.getKontroler().obrisiKorisnika(tmk.dajKorisnika(tabela.getSelectedRow()));
-                  JOptionPane.showMessageDialog(this, "Sistem je obrisao korisnika", "Uspeh!", JOptionPane.INFORMATION_MESSAGE);
-                  this.dispose();
-
-             } catch (Exception ex) {
-                  JOptionPane.showMessageDialog(this, "Sistem ne moze da obrise korisnika", "Greska!", JOptionPane.ERROR_MESSAGE);
-
-             }
-
-                }
-    }//GEN-LAST:event_btnObrisiKorisnikaActionPerformed
+        FrmRaskiniUgovor frr = null;
+        try {
+            TableModelKorisnik tmk = (TableModelKorisnik) tabela.getModel();
+            
+            frr = new FrmRaskiniUgovor(this, true, tmk.dajKorisnika(tabela.getSelectedRow()));
+        } catch (Exception ex) {
+            Logger.getLogger(FrmRadSaUgovorima.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        frr.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -340,13 +282,13 @@ public class FrmPretragaKorisnika extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmPretragaKorisnika.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmRadSaUgovorima.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmPretragaKorisnika.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmRadSaUgovorima.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmPretragaKorisnika.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmRadSaUgovorima.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmPretragaKorisnika.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmRadSaUgovorima.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -355,23 +297,20 @@ public class FrmPretragaKorisnika extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new FrmPretragaKorisnika().setVisible(true);
+                    new FrmRadSaUgovorima().setVisible(true);
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Greska!", JOptionPane.ERROR_MESSAGE);
-
+                    Logger.getLogger(FrmRadSaUgovorima.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnIzmeniKorisnika;
-    private javax.swing.JButton btnNoviKorisnik;
-    private javax.swing.JButton btnObrisiKorisnika;
     private javax.swing.JButton btnPonistiFiltere;
     private javax.swing.JButton btnPretrazi;
-    private javax.swing.JButton btnUplata;
-    private javax.swing.JButton btnZavrsi;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -383,7 +322,7 @@ public class FrmPretragaKorisnika extends javax.swing.JFrame {
     private javax.swing.JTextField txtPrezime;
     // End of variables declaration//GEN-END:variables
 
-    private void pripremiTabelu() throws Exception {
+    private void srediTabelu() throws Exception {
         tabela.setModel(new TableModelKorisnik(Kontroler.getKontroler().dajSveKorisnike()));
     }
 }

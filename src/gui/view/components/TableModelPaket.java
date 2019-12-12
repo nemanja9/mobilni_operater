@@ -11,7 +11,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class TableModelPaket extends AbstractTableModel{
 
-    List<Paket> lista;
+    public List<Paket> lista;
     String[] columnNames=new String[]{"ID", "Naziv"};
     
 

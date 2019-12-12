@@ -31,7 +31,9 @@ public class StorageDatabasePaket implements StoragePaket {
                 upit = "insert into usluga (tip, kolicina, cena, paket_id,naziv) values (?,?,?,?,?)";
                 ps = connection.prepareStatement(upit);
                 for (Usluga stavka: paket.getUsluge()) {
-                    ps.setInt(1,stavka.getTip());
+                    ps.setInt(1,stavka.getTip().ordinal()+1);
+                 
+                    System.out.println(stavka.getTip().ordinal());
                     ps.setDouble(2,stavka.getKolicina());
                     ps.setDouble(3,stavka.getCena());
                     ps.setInt(4,paket.getPaketId());
@@ -99,5 +101,32 @@ public class StorageDatabasePaket implements StoragePaket {
             ex.printStackTrace();
             throw new Exception("Greska prilikom vadjenja usluga iz baze za paket id: !"+paketId+"\n" + ex.getMessage());
         }
+    }
+
+    @Override
+    public Paket dajJedan(int paket_id) throws Exception {
+        Paket paket = new Paket();
+
+        try {
+            Connection connection = ConnectionFactory.getInstance().getConnection();
+            String upit = "select * from usluga paket where paket_id = (?)";
+            PreparedStatement ps = connection.prepareStatement(upit);
+            ps.setInt(1,paket_id);
+            ResultSet rs = ps.executeQuery();
+        while(rs.next()){
+                
+                paket.setNaziv(rs.getString("naziv"));
+                paket.setPaketId(rs.getInt("paket_id"));
+                paket.setUsluge(vratiUsluge(paket.getPaketId()));
+               
+            }
+            rs.close();
+            ps.close();
+            return  paket;
+        } catch (Exception ex){
+            ex.printStackTrace();
+            throw new Exception("Greska prilikom vadjenja paketa iz baze!\n" + ex.getMessage());
+        }
+        
     }
 }
