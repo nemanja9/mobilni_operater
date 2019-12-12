@@ -311,6 +311,7 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
     }//GEN-LAST:event_btnOtkaziActionPerformed
 
     private void btnNovPaketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovPaketActionPerformed
+       btnZapamtiUgovor.setEnabled(true);
         napravljenNovUg = true;
         tabelaUsluge.setEnabled(true);
         Paket pom = new Paket();

@@ -50,9 +50,9 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
         btnPonistiFiltere = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        btnKreirajUg = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnRaskiniUg = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -97,7 +97,7 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
                     .addComponent(txtAdresa, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnPonistiFiltere, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                    .addComponent(btnPonistiFiltere, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(btnPretrazi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(20, 20, 20))
         );
@@ -136,12 +136,18 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabela);
 
-        jButton1.setText("Kreiraj ugovor za izabranog korisnika");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnKreirajUg.setText("Kreiraj ugovor za izabranog korisnika");
+        btnKreirajUg.setEnabled(false);
+        btnKreirajUg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnKreirajUgActionPerformed(evt);
             }
         });
 
@@ -152,10 +158,11 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
             }
         });
 
-        jButton3.setText("Raskini ugovor za izabranog korisnika");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnRaskiniUg.setText("Raskini ugovor za izabranog korisnika");
+        btnRaskiniUg.setEnabled(false);
+        btnRaskiniUg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnRaskiniUgActionPerformed(evt);
             }
         });
 
@@ -173,7 +180,7 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(60, 60, 60)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnKreirajUg, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -181,7 +188,7 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGap(38, 38, 38)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnRaskiniUg, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -193,8 +200,8 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnKreirajUg, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRaskiniUg, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -237,7 +244,7 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnKreirajUgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKreirajUgActionPerformed
         // TODO add your handling code here:
         try{
         FrmNovUgovor frmnu = new FrmNovUgovor(this, true, (int) tabela.getModel().getValueAt(tabela.getSelectedRow(), 0));
@@ -250,9 +257,9 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
             JOptionPane.showMessageDialog(this, "Niste izabrali korisnika za kog zelite da kreirate ugovor!", "Greska!", JOptionPane.ERROR_MESSAGE);
 
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnKreirajUgActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnRaskiniUgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRaskiniUgActionPerformed
         // TODO add your handling code here:
         FrmRaskiniUgovor frr = null;
         try {
@@ -263,7 +270,13 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
             Logger.getLogger(FrmRadSaUgovorima.class.getName()).log(Level.SEVERE, null, ex);
         }
         frr.setVisible(true);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnRaskiniUgActionPerformed
+
+    private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
+        // TODO add your handling code here:
+       btnRaskiniUg.setEnabled(true);
+       btnKreirajUg.setEnabled(true);
+    }//GEN-LAST:event_tabelaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -306,11 +319,11 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnKreirajUg;
     private javax.swing.JButton btnPonistiFiltere;
     private javax.swing.JButton btnPretrazi;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnRaskiniUg;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
