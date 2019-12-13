@@ -5,7 +5,6 @@
  */
 package gui.view;
 
-import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
 import domen.Korisnik;
 import domen.Paket;
 import domen.Ugovor;
