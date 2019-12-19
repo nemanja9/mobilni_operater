@@ -207,7 +207,7 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
             double GBcen = Double.parseDouble(txtGB1.getText().trim());
             double MINcen = Double.parseDouble(txtMIN1.getText().trim());
             
-            if((GBkol==0 & MINkol==0 & SMSkol==0)||(SMScen==0 & GBcen==0 & MINcen==0)) throw new Exception();
+            
             
             Usluga pom1 = new Usluga(-1, UslugaTip.GB, GBkol, GBcen, -1, "");
             Usluga pom2 = new Usluga(-1, UslugaTip.MIN, MINkol, MINcen, -1, "");
@@ -223,7 +223,7 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
             this.dispose();
 
         } catch (Exception e) {
-             JOptionPane.showMessageDialog(this, "Niste lepo uneli neko polje", "Greska!", JOptionPane.ERROR_MESSAGE);
+             JOptionPane.showMessageDialog(this, e.getMessage(), "Greska!", JOptionPane.ERROR_MESSAGE);
 
         }
     }//GEN-LAST:event_jButton1ActionPerformed

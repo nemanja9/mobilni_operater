@@ -386,8 +386,8 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
             Kontroler.getKontroler().dodajPaket(pak);
             Kontroler.getKontroler().dodajUgovor(novi);
         } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti ugovor!", "Greska!", JOptionPane.ERROR_MESSAGE);
+           
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska!", JOptionPane.ERROR_MESSAGE);
 
         }
         }catch(Exception e){

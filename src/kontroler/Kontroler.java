@@ -17,6 +17,8 @@ import storage.impl.StorageDatabaseZaposleni;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import service.ServicePaket;
+import service.impl.ServicePaketImpl;
 import storage.StorageRacun;
 import storage.impl.StorageDatabaseRacun;
 
@@ -24,14 +26,14 @@ public class Kontroler {
     private static Kontroler kont;
     private StorageKorisnik storageKorisnik;
     private StorageZaposleni storageZaposleni;
-    private StoragePaket storagePaket;
+    private ServicePaket servicePaket;
     private StorageUgovor storageUgovor;
     private StorageRacun storageRacun;
 
     private Kontroler() {
        storageKorisnik = new StorageDatabaseKorisnik();
        storageZaposleni = new StorageDatabaseZaposleni();
-       storagePaket = new StorageDatabasePaket();
+       servicePaket = new ServicePaketImpl();
        storageUgovor = new StorageDatabaseUgovor();
        storageRacun = new StorageDatabaseRacun();
     }
@@ -59,7 +61,7 @@ public class Kontroler {
     }
 
     public Paket dodajPaket(Paket paket) throws Exception{
-        return storagePaket.dodaj(paket);
+        return servicePaket.dodaj(paket);
     }
 
     public List<Ugovor> dajSveUgovore() throws Exception {
@@ -67,7 +69,7 @@ public class Kontroler {
     }
 
     public List<Paket> dajSvePakete() throws Exception{
-        return storagePaket.dajSve();
+        return servicePaket.dajSve();
     }
     public Ugovor dodajUgovor(Ugovor ug) throws Exception{
         return storageUgovor.dodaj(ug);
@@ -91,7 +93,7 @@ public class Kontroler {
         return storageKorisnik.dajNeke(ime, prezime, adresa);
     }
     public Paket dajJedanPaket(int  id) throws Exception{
-        return storagePaket.dajJedan(id);
+        return servicePaket.dajJedan(id);
     }
     public List<Ugovor> dajSveZaJednogKorisnika(int id) throws Exception{
         return storageUgovor.dajSveZaKorisnika(id);
