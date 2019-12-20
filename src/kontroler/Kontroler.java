@@ -5,20 +5,16 @@ import domen.Paket;
 import domen.Racun;
 import domen.Ugovor;
 import domen.Zaposleni;
-import storage.StorageKorisnik;
-import storage.StoragePaket;
-import storage.StorageUgovor;
+
 import storage.StorageZaposleni;
-import storage.impl.StorageDatabaseKorisnik;
-import storage.impl.StorageDatabasePaket;
-import storage.impl.StorageDatabaseUgovor;
+
 import storage.impl.StorageDatabaseZaposleni;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
+import service.ServiceKorisnik;
 import service.ServicePaket;
 import service.ServiceUgovor;
+import service.impl.ServiceKorisnikImpl;
 import service.impl.ServicePaketImpl;
 import service.impl.ServiceUgovorImpl;
 import storage.StorageRacun;
@@ -27,14 +23,14 @@ import storage.impl.StorageDatabaseRacun;
 public class Kontroler {
 
     private static Kontroler kont;
-    private StorageKorisnik storageKorisnik;
+    private ServiceKorisnik serviceKorisnik;
     private StorageZaposleni storageZaposleni;
     private ServicePaket servicePaket;
     private ServiceUgovor serviceUgovor;
     private StorageRacun storageRacun;
 
     private Kontroler() {
-        storageKorisnik = new StorageDatabaseKorisnik();
+        serviceKorisnik = new ServiceKorisnikImpl();
         storageZaposleni = new StorageDatabaseZaposleni();
         servicePaket = new ServicePaketImpl();
         serviceUgovor = new ServiceUgovorImpl();
@@ -53,21 +49,25 @@ public class Kontroler {
     }
 
     public List<Korisnik> dajSveKorisnike() throws Exception {
-        return storageKorisnik.dajSve();
+        return serviceKorisnik.dajSve();
     }
 
     public void dodajKorisnika(Korisnik pom) throws Exception {
-        storageKorisnik.dodaj(pom);
+        serviceKorisnik.dodaj(pom);
     }
 
     public void izmeniKorisnika(Korisnik pom) throws Exception {
-        storageKorisnik.izmeni(pom);
+        serviceKorisnik.izmeni(pom);
     }
 
     public void obrisiKorisnika(Korisnik pom) throws Exception {
-        storageKorisnik.obrisi(pom);
+        serviceKorisnik.obrisi(pom);
     }
 
+     public List<Korisnik> dajNekekorisnike(String ime, String prezime, String adresa) throws Exception {
+        return serviceKorisnik.dajNeke(ime, prezime, adresa);
+    }
+    
     public Paket dodajPaket(Paket paket) throws Exception {
         return servicePaket.dodaj(paket);
     }
@@ -103,9 +103,7 @@ public class Kontroler {
         throw new Exception("Ne postoji korisnik sa tim korisnickim imenom!");
     }
 
-    public List<Korisnik> dajNekekorisnike(String ime, String prezime, String adresa) throws Exception {
-        return storageKorisnik.dajNeke(ime, prezime, adresa);
-    }
+   
 
     public Paket dajJedanPaket(int id) throws Exception {
         return servicePaket.dajJedan(id);

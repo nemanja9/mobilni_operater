@@ -234,10 +234,8 @@ public class FrmDodajKorisnika extends javax.swing.JFrame {
 
     private void btnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSacuvajActionPerformed
         try {
-            // TODO add your handling code here:
+            
             Korisnik kor = new Korisnik();
-            if (txtAdresa.getText().trim().length() < 1 || txtPrezime.getText().trim().length() < 1 || txtIme.getText().trim().length() < 1)
-                throw new Exception ("Morate popuniti sva polja");
             kor.setAdresa(txtAdresa.getText().trim());
             kor.setIme(txtIme.getText().trim());
             kor.setPrezime(txtPrezime.getText().trim());
@@ -246,8 +244,8 @@ public class FrmDodajKorisnika extends javax.swing.JFrame {
             this.dispose();
             
         } catch (Exception ex) {
-            Logger.getLogger(FrmDodajKorisnika.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska pri unosu!", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska pri unosu! "+ex.getMessage(), JOptionPane.ERROR_MESSAGE);
 
         }
         

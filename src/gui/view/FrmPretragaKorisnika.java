@@ -286,9 +286,7 @@ public class FrmPretragaKorisnika extends javax.swing.JFrame {
     }//GEN-LAST:event_tabelaMouseClicked
 
     private void btnIzmeniKorisnikaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIzmeniKorisnikaActionPerformed
-        // TODO add your handling code here:
-                TableModelKorisnik tmk = (TableModelKorisnik) tabela.getModel();
-
+        TableModelKorisnik tmk = (TableModelKorisnik) tabela.getModel();
         FrmDodajKorisnika dd = new FrmDodajKorisnika(tmk.dajKorisnika(tabela.getSelectedRow()));
         dd.setVisible(true);
         this.dispose();
@@ -313,7 +311,7 @@ public class FrmPretragaKorisnika extends javax.swing.JFrame {
                  }
                  Kontroler.getKontroler().obrisiKorisnika(tmk.dajKorisnika(tabela.getSelectedRow()));
                   JOptionPane.showMessageDialog(this, "Sistem je obrisao korisnika", "Uspeh!", JOptionPane.INFORMATION_MESSAGE);
-                  this.dispose();
+                  pripremiTabelu();
 
              } catch (Exception ex) {
                   JOptionPane.showMessageDialog(this, "Sistem ne moze da obrise korisnika", "Greska!", JOptionPane.ERROR_MESSAGE);
