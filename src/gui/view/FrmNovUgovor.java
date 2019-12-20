@@ -13,6 +13,7 @@ import domen.UslugaTip;
 import domen.Zaposleni;
 import gui.view.components.TableModelPaket;
 import gui.view.components.TableModelUsluga;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ArrayList;
@@ -23,12 +24,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.TableColumn;
 import kontroler.Kontroler;
+import validator.Validator;
+import validator.impl.ValidatorPaket;
 
 /**
  *
@@ -36,25 +41,23 @@ import kontroler.Kontroler;
  */
 public class FrmNovUgovor extends javax.swing.JDialog {
 
-   
     public int id;
     String m;
     boolean napravljenNovUg = false;
     Korisnik trenutniKorisnik;
     Zaposleni trenutniZaposleni;
-    public FrmNovUgovor(java.awt.Frame parent, boolean modal,int korisnik_id) throws Exception {
+
+    public FrmNovUgovor(java.awt.Frame parent, boolean modal, int korisnik_id) throws Exception {
         super(parent, modal);
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
         System.out.println(FrmMain.ulogovan.getZaposleniId());
         id = korisnik_id;
         prepareView();
-        
+
     }
 
-    
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -97,6 +100,12 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
         txtKorisnik.setEditable(false);
 
         cmbTrajanje.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        txtBr.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtBrFocusLost(evt);
+            }
+        });
 
         jLabel5.setText("Naziv ugovora: ");
 
@@ -239,7 +248,7 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
                     .addGroup(layout.createSequentialGroup()
                         .addGap(83, 83, 83)
                         .addComponent(btnZapamtiUgovor, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelUsluge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -292,13 +301,15 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
     private void tabelaPaketiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaPaketiMouseClicked
         // TODO add your handling code here:
         btnZapamtiUgovor.setEnabled(true);
-        System.out.println(tabelaPaketi.getModel().getValueAt(tabelaPaketi.getSelectedRow(),0));
-        if(napravljenNovUg) return;
+        System.out.println(tabelaPaketi.getModel().getValueAt(tabelaPaketi.getSelectedRow(), 0));
+        if (napravljenNovUg) {
+            return;
+        }
         try {
-            List<Usluga> lista = Kontroler.getKontroler().dajJedanPaket((int) tabelaPaketi.getModel().getValueAt(tabelaPaketi.getSelectedRow(),0)).getUsluge();
-            System.out.println(Kontroler.getKontroler().dajJedanPaket((int) tabelaPaketi.getModel().getValueAt(tabelaPaketi.getSelectedRow(),0)).getUsluge().get(0).toString());
+            List<Usluga> lista = Kontroler.getKontroler().dajJedanPaket((int) tabelaPaketi.getModel().getValueAt(tabelaPaketi.getSelectedRow(), 0)).getUsluge();
+            System.out.println(Kontroler.getKontroler().dajJedanPaket((int) tabelaPaketi.getModel().getValueAt(tabelaPaketi.getSelectedRow(), 0)).getUsluge().get(0).toString());
             tabelaUsluge.setModel(new TableModelUsluga((ArrayList<Usluga>) lista));
-            
+
         } catch (Exception ex) {
             Logger.getLogger(FrmNovUgovor.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -310,22 +321,24 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
     }//GEN-LAST:event_btnOtkaziActionPerformed
 
     private void btnNovPaketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovPaketActionPerformed
-       btnZapamtiUgovor.setEnabled(true);
+        btnZapamtiUgovor.setEnabled(true);
         napravljenNovUg = true;
         tabelaUsluge.setEnabled(true);
         Paket pom = new Paket();
         m = JOptionPane.showInputDialog("Unesite ime paketa:");
-        if (m == null) return;
+        if (m == null) {
+            return;
+        }
         btnNovPaket.setEnabled(false);
         pom.setNaziv(m);
-        
-        TableModelPaket  tm = (TableModelPaket) tabelaPaketi.getModel();
+
+        TableModelPaket tm = (TableModelPaket) tabelaPaketi.getModel();
         tm.lista.add(pom);
         tabelaPaketi.setModel(tm);
         tm.fireTableDataChanged();
-        Usluga ug1 = new Usluga(123,UslugaTip.GB, 0,0,0,"");
-        Usluga ug2 = new Usluga(123,UslugaTip.MIN, 0,0,0,"");
-        Usluga ug3 = new Usluga(123,UslugaTip.SMS, 0,0,0,"");
+        Usluga ug1 = new Usluga(123, UslugaTip.GB, 0, 0, 0, "");
+        Usluga ug2 = new Usluga(123, UslugaTip.MIN, 0, 0, 0, "");
+        Usluga ug3 = new Usluga(123, UslugaTip.SMS, 0, 0, 0, "");
         ArrayList<Usluga> lista = new ArrayList<>();
         lista.add(ug1);
         lista.add(ug2);
@@ -336,72 +349,78 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
         } catch (Exception ex) {
             Logger.getLogger(FrmNovUgovor.class.getName()).log(Level.SEVERE, null, ex);
         }
-        tabelaPaketi.setRowSelectionInterval(tm.lista.size()-1, tm.lista.size()-1);
+        tabelaPaketi.setRowSelectionInterval(tm.lista.size() - 1, tm.lista.size() - 1);
         tabelaPaketi.setEnabled(false);
         tabelaUsluge.setEnabled(true);
-        
+
     }//GEN-LAST:event_btnNovPaketActionPerformed
 
     private void btnZapamtiUgovorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZapamtiUgovorActionPerformed
-        try{
-        
-        String brtel = txtBr.getText().trim();
-        String naziv = txtNaziv.getText().trim();
-        Date DatumOd = new Date();
-        Calendar cal = Calendar.getInstance(); 
-        if(cmbTrajanje.getSelectedItem().toString().startsWith("12"))
-        cal.add(Calendar.MONTH, 12);
-        else cal.add(Calendar.MONTH, 24);
-        Date datumDo = cal.getTime();
-        TableModelUsluga tm = (TableModelUsluga) tabelaUsluge.getModel();
-        List<Usluga> listaUsluga = tm.lista;
-        
-        TableModelPaket tmp = (TableModelPaket) tabelaPaketi.getModel();
-        Paket pak = null;
-        if(napravljenNovUg){
-        pak = new Paket();
-        pak.setNaziv(m);
-        
-        } else
         try {
-            pak = Kontroler.getKontroler().dajJedanPaket((int) tabelaPaketi.getModel().getValueAt(tabelaPaketi.getSelectedRow(),0));
-        } catch (Exception ex) {
-            Logger.getLogger(FrmNovUgovor.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        pak.setUsluge((ArrayList<Usluga>) listaUsluga);
-        
-        Ugovor novi = new Ugovor();
-        novi.setBrojTelefona(brtel);
-        novi.setDatumDo(datumDo);
-        novi.setDatumOd(DatumOd);
-        novi.setKorisnik(trenutniKorisnik);
-        novi.setZaposleni(trenutniZaposleni);
-        novi.setNaziv(naziv);
-        novi.setPaket(pak);
-        
-        JOptionPane.showMessageDialog(this, "Sistem je zapamtio ugovor!","Uspeh!",JOptionPane.INFORMATION_MESSAGE);
-        this.dispose();
-        try {
-            if(napravljenNovUg)
-            Kontroler.getKontroler().dodajPaket(pak);
-            Kontroler.getKontroler().dodajUgovor(novi);
-        } catch (Exception ex) {
-           
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska!", JOptionPane.ERROR_MESSAGE);
 
-        }
-        }catch(Exception e){
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti ugovor!", "Greska!", JOptionPane.ERROR_MESSAGE);
+            String brtel = txtBr.getText().trim();
+            String naziv = txtNaziv.getText().trim();
+            Date DatumOd = new Date();
+            Calendar cal = Calendar.getInstance();
+            if (cmbTrajanje.getSelectedItem().toString().startsWith("12")) {
+                cal.add(Calendar.MONTH, 12);
+            } else {
+                cal.add(Calendar.MONTH, 24);
+            }
+            Date datumDo = cal.getTime();
+            TableModelUsluga tm = (TableModelUsluga) tabelaUsluge.getModel();
+            List<Usluga> listaUsluga = tm.lista;
+            Paket pak = null;
+            if (napravljenNovUg) {
+                pak = new Paket();
+                pak.setNaziv(m);
+            } else {
+                pak = Kontroler.getKontroler().dajJedanPaket((int) tabelaPaketi.getModel().getValueAt(tabelaPaketi.getSelectedRow(), 0));
+            }
+
+            pak.setUsluge((ArrayList<Usluga>) listaUsluga);
+
+            Ugovor novi = new Ugovor();
+            novi.setBrojTelefona(brtel);
+            novi.setDatumDo(datumDo);
+            novi.setDatumOd(DatumOd);
+            novi.setKorisnik(trenutniKorisnik);
+            novi.setZaposleni(trenutniZaposleni);
+            novi.setNaziv(naziv);
+            novi.setPaket(pak);
+
+            if (napravljenNovUg) {
+                Kontroler.getKontroler().dodajPaket(pak);
+            }
+            Kontroler.getKontroler().dodajUgovor(novi);
+            jLabel3.setForeground(Color.BLACK);
+            JOptionPane.showMessageDialog(this, "Sistem je zapamtio ugovor!", "Uspeh!", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+
+        } catch (Exception e) {
+
+            if (e.getMessage().endsWith("ugovor!")){
+                jLabel3.setForeground(Color.red);
+            }
+            else if (e.getMessage().endsWith("paket!")){
+                TitledBorder tb = javax.swing.BorderFactory.createTitledBorder("Usluge izabranog paketa:");
+                tb.setTitleColor(Color.RED);
+                panelUsluge.setBorder(tb);
+            }
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti ugovor! " + e.getMessage(), "Greska!", JOptionPane.ERROR_MESSAGE);
+
         }
     }//GEN-LAST:event_btnZapamtiUgovorActionPerformed
 
     private void tabelaPaketiPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabelaPaketiPropertyChange
-  
+
     }//GEN-LAST:event_tabelaPaketiPropertyChange
 
-   
-    
+    private void txtBrFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBrFocusLost
+        //txtBr.setBackground(new Color(252,132,124));
+        
+    }//GEN-LAST:event_txtBrFocusLost
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnNovPaket;
@@ -431,9 +450,9 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
         cmbTrajanje.addItem("24 meseca");
         tabelaPaketi.setModel(new TableModelPaket(Kontroler.getKontroler().dajSvePakete()));
         System.out.println(FrmMain.ulogovan.getZaposleniId());
-        List<Korisnik> listaKor= Kontroler.getKontroler().dajSveKorisnike();
+        List<Korisnik> listaKor = Kontroler.getKontroler().dajSveKorisnike();
         for (Korisnik korisnik : listaKor) {
-            if (korisnik.getKorisnikId()== id){
+            if (korisnik.getKorisnikId() == id) {
                 txtKorisnik.setText(korisnik.toString());
                 trenutniKorisnik = korisnik;
                 trenutniZaposleni = FrmMain.ulogovan;
@@ -441,8 +460,7 @@ this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize()
         }
         tabelaUsluge.setModel(new TableModelUsluga());
         tabelaUsluge.setEnabled(false);
-        
+
         //comboCell(tabelaUsluge, tabelaUsluge.getColumn("Tip"));
-        
     }
 }
